@@ -41,36 +41,35 @@ func generateBinData() []BinData {
 		return bd
 	}
 
-	if numberOfBins != 0 {
-		binData := make([]BinData, numberOfBins)
-
-		for i := 0; i < numberOfBins; i++ {
-			binItemKey := strconv.Itoa(i + 1)
-			binItemData := os.Getenv("BIN_" + binItemKey)
-
-			if binItemData == "" {
-				panic("unable to continue due to no env vars of BIN_" + binItemKey + " set")
-			}
-
-			binItem := strings.Split(binItemData, ",")
-			binFrequency, err := strconv.Atoi(binItem[3])
-			if err != nil {
-				panic("unable to continue as bin frequency is not an integer")
-			}
-
-			binData[i] = BinData{
-				Name:         binItem[0],
-				FriendlyName: binItem[1],
-				ImagePath:    binItem[2],
-				Freq:         binFrequency,
-			}
-		}
-
-		return binData
-
+	if numberOfBins == 0 {
+		return bd
 	}
 
-	return bd
+	binData := make([]BinData, numberOfBins)
+
+	for i := 0; i < numberOfBins; i++ {
+		binItemKey := strconv.Itoa(i + 1)
+		binItemData := os.Getenv("BIN_" + binItemKey)
+
+		if binItemData == "" {
+			panic("unable to continue due to no env vars of BIN_" + binItemKey + " set")
+		}
+
+		binItem := strings.Split(binItemData, ",")
+		binFrequency, err := strconv.Atoi(binItem[3])
+		if err != nil {
+			panic("unable to continue as bin frequency is not an integer")
+		}
+
+		binData[i] = BinData{
+			Name:         binItem[0],
+			FriendlyName: binItem[1],
+			ImagePath:    binItem[2],
+			Freq:         binFrequency,
+		}
+	}
+
+	return binData
 }
 
 // NextCollectionData iterates through entries in a []binData and appends a Collected: bool to the bin.
