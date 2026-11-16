@@ -41,7 +41,7 @@ func generateBinData() []BinData {
 		return bd
 	}
 
-	if numberOfBins > 0 {
+	if numberOfBins == 0 {
 		var binData []BinData
 
 		for i := 1; i <= int(numberOfBins); i++ {
