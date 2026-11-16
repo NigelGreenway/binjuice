@@ -41,11 +41,11 @@ func generateBinData() []BinData {
 		return bd
 	}
 
-		var binData []BinData
 	if numberOfBins != 0 {
+		binData := make([]BinData, numberOfBins)
 
-		for i := 1; i <= int(numberOfBins); i++ {
-			binItemKey := strconv.Itoa(i)
+		for i := 0; i < numberOfBins; i++ {
+			binItemKey := strconv.Itoa(i + 1)
 			binItemData := os.Getenv("BIN_" + binItemKey)
 
 			if binItemData == "" {
@@ -58,15 +58,16 @@ func generateBinData() []BinData {
 				panic("unable to continue as bin frequency is not an integer")
 			}
 
-			binData = append(binData, BinData{
+			binData[i] = BinData{
 				Name:         binItem[0],
 				FriendlyName: binItem[1],
 				ImagePath:    binItem[2],
 				Freq:         binFrequency,
-			})
+			}
 		}
 
 		return binData
+
 	}
 
 	return bd
