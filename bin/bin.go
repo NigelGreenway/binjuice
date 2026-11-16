@@ -52,7 +52,7 @@ func generateBinData() []BinData {
 		binItemData := os.Getenv("BIN_" + binItemKey)
 
 		if binItemData == "" {
-			panic("unable to continue due to no env vars of BIN_" + binItemKey + " set")
+			log.Fatalf("unable to continue due to no env vars of BIN_%s set", binItemKey)
 		}
 
 		binItem := strings.Split(binItemData, ",")
