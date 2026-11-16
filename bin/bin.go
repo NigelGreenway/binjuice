@@ -47,7 +47,7 @@ func generateBinData() []BinData {
 
 	binData := make([]BinData, numberOfBins)
 
-	for i := 0; i < numberOfBins; i++ {
+	for i := range numberOfBins {
 		binItemKey := strconv.Itoa(i + 1)
 		binItemData := os.Getenv("BIN_" + binItemKey)
 
