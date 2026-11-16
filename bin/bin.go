@@ -37,7 +37,7 @@ var bd = []BinData{
 func generateBinData() []BinData {
 	numberOfBins, err := strconv.Atoi(os.Getenv("NUMBER_OF_BINS"))
 	if err != nil {
-		log.Println("reverting to default setup due to no custom bin data")
+		log.Println("`NUMBER_OF_BINS` is either not set or not an integer; reverting to default setup")
 		return bd
 	}
 
