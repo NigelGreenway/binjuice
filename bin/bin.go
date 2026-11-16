@@ -41,8 +41,8 @@ func generateBinData() []BinData {
 		return bd
 	}
 
-	if numberOfBins == 0 {
 		var binData []BinData
+	if numberOfBins != 0 {
 
 		for i := 1; i <= int(numberOfBins); i++ {
 			binItemKey := strconv.Itoa(i)
