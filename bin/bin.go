@@ -35,6 +35,11 @@ var bd = []BinData{
 }
 
 func generateBinData() []BinData {
+	hasBinData, err := strconv.ParseBool(os.Getenv("BIN_DATA"))
+	if err != nil || !hasBinData {
+		return bd
+	}
+
 	numberOfBins, err := strconv.Atoi(os.Getenv("NUMBER_OF_BINS"))
 	if err != nil {
 		log.Println("`NUMBER_OF_BINS` is either not set or not an integer; reverting to default setup")

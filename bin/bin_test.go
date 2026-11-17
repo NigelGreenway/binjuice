@@ -14,6 +14,8 @@ func TestNextCollectionData(t *testing.T) {
 }
 
 func TestNextCollectionDate(t *testing.T) {
+	COLLECTIONDAY = time.Thursday
+
 	tests := []struct {
 		tYear  int
 		tMonth time.Month
@@ -33,6 +35,7 @@ func TestNextCollectionDate(t *testing.T) {
 	for _, test := range tests {
 		testDate := time.Date(test.tYear, test.tMonth, test.tDay, 1, 0, 0, 0, time.Local)
 		res := NextCollectionDate(testDate)
+
 		if res.Day() != test.eDay {
 			t.Errorf("NextCollectionDate(%v) = %v", testDate, res)
 		}
