@@ -155,6 +155,7 @@ func AnchorWeekYear() (awYear int, awWeek int, err error) {
 // It returns 0, error if the weeks since the anchor are less than 0
 func WeeksSinceAnchor(cYear, cWeek, aYear, aWeek int) (wsAnchor int, err error) {
 	// Add remaining weeks in anchor year
+	wsAnchor += WeeksInYear(aYear) - aWeek
 
 	// Add weeks so far in current year
 	wsAnchor += cWeek
