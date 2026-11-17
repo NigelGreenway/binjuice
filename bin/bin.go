@@ -34,20 +34,20 @@ var bd = []BinData{
 	{Name: "Green", FriendlyName: "Garden", ImagePath: "green_bin.png", Freq: 2},
 }
 
-func generateBinData() []BinData {
+func generateBinData() ([]BinData, error) {
 	hasBinData, err := strconv.ParseBool(os.Getenv("BIN_DATA"))
 	if err != nil || !hasBinData {
-		return bd
+		return bd, nil
 	}
 
 	numberOfBins, err := strconv.Atoi(os.Getenv("NUMBER_OF_BINS"))
 	if err != nil {
 		log.Println("`NUMBER_OF_BINS` is either not set or not an integer; reverting to default setup")
-		return bd
+		return bd, nil
 	}
 
 	if numberOfBins == 0 {
-		return bd
+		return bd, nil
 	}
 
 	binData := make([]BinData, numberOfBins)
@@ -57,13 +57,13 @@ func generateBinData() []BinData {
 		binItemData := os.Getenv("BIN_" + binItemKey)
 
 		if binItemData == "" {
-			log.Fatalf("unable to continue due to no env vars of BIN_%s set", binItemKey)
+			return nil, errors.New("unable to continue due to no env vars of BIN_" + binItemKey + " set")
 		}
 
 		binItem := strings.Split(binItemData, ",")
 		binFrequency, err := strconv.Atoi(binItem[3])
 		if err != nil {
-			panic("unable to continue as bin frequency is not an integer")
+			return nil, errors.New("unable to continue as bin frequency is not an integer")
 		}
 
 		binData[i] = BinData{
@@ -74,7 +74,7 @@ func generateBinData() []BinData {
 		}
 	}
 
-	return binData
+	return binData, nil
 }
 
 // NextCollectionData iterates through entries in a []binData and appends a Collected: bool to the bin.
@@ -93,7 +93,10 @@ func NextCollectionData() []BinData {
 		log.Fatal("error getting the weeks since the anchor date")
 	}
 
-	binData := generateBinData()
+	binData, err := generateBinData()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	for k, bin := range binData {
 		binData[k].Collected = IsBinCollected(bin, wsAnchor)
